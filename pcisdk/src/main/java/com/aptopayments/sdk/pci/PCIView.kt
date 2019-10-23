@@ -12,7 +12,6 @@ import androidx.annotation.VisibleForTesting
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
 import org.json.JSONObject
 import kotlin.properties.Delegates
-import com.aptopayments.sdk.pci.AlertHandlerWebClient
 
 private const val JS_PREFIX = "window.AptoPCISDK"
 
@@ -23,12 +22,13 @@ class PCIView
     internal lateinit var webView: WebView
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal lateinit var operationQueue: WebViewJSActionsQueue
-    private var webViewClient : WebViewClient = object : WebViewClient() {
+    private val webViewClient : WebViewClient = object : WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             operationQueue.isSuspended = false
         }
     }
+    private val alertHandlerWebClient = AlertHandlerWebClient()
 
     var styles: Map<String, Any> by Delegates.observable(mapOf()) { _, _ , _ ->
         customiseUI()
@@ -42,11 +42,14 @@ class PCIView
     var showPan: Boolean by Delegates.observable(true) { _, _ , _ ->
         customiseUI()
     }
+    var alertTexts: Map<String, String> by Delegates.observable(mapOf()) { _, _, newValue ->
+        alertHandlerWebClient.alertTexts = newValue
+    }
 
     private fun customiseUI() {
         val flagsJSON = JSONObject(mapOf("showPan" to showPan, "showCvv" to showCvv, "showExp" to showExp))
         val stylesJSON = JSONObject(styles)
-        operationQueue.addAction(action = "$JS_PREFIX.customiseUI($flagsJSON, $stylesJSON)")
+        operationQueue.addAction(action = "$JS_PREFIX.customiseUI('$flagsJSON', '$stylesJSON')")
     }
 
     init {
@@ -59,7 +62,7 @@ class PCIView
         webView = findViewById(R.id.wv_web_view)
         operationQueue = WebViewJSActionsQueue(webView)
         webView.webViewClient = webViewClient
-        webView.webChromeClient = AlertHandlerWebClient()
+        webView.webChromeClient = alertHandlerWebClient
         webView.settings.javaScriptEnabled = true
         webView.setBackgroundColor(Color.TRANSPARENT)
         webView.loadUrl("file:///android_asset/container.html")

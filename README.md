@@ -68,20 +68,36 @@ You can, also, define the css styles of various components, including:
 1. CVV field.
 1. Exp. Date field
 
+### Styling elements
+
 To customise the PCI look and feel, you can use the following snippet:
 
 ```kotlin
 pciView.showPan = true
 pciView.showCvv = false
 pciView.showExp = false
-pciView.styles = [
-  "container": "IFrame CSS Styles",
-  "content": [
-    "pan": "PAN CSS Styles",
-    "cvv": "CVV CSS Styles",
-    "exp": "Exp. Date CSS Styles"
-  ]
-]
+pciView.styles = mapOf(
+    "container" to "color: red",
+    "content" to mapOf(
+        "pan" to "color: blue",
+        "cvv" to "color: yellow",
+        "exp" to "color: green"
+    )
+)
+```
+
+### Text customization
+
+To customize the different texts shown in alerts, you can use the following attribute:
+
+```kotlin
+pciView.alertTexts = mapOf(
+    "inputCode.message" to "What's your secret code?",
+    "inputCode.okAction" to "Ok",
+    "inputCode.cancelAction" to "Cancel",
+    "wrongCode.message" to "Invalid code",
+    "wrongCode.okAction" to "Ok"
+)
 ```
 
 ## Author
