@@ -1,5 +1,28 @@
 # Using the Android PCI SDK
 
+The PCI SDK provides a transparent View that can handle the PCI data using a webView.
+
+### Installation (Using [Gradle](https://gradle.org))
+
+1. On your project root build.gradle add the Apto repository and Jcenter:
+```
+allprojects {
+  repositories {
+    ...
+    maven { url "https://dl.bintray.com/apto/maven" }
+    ...
+  }
+}
+```
+
+2. On your library module's `build.gradle` add the following dependency:
+
+```
+implementation 'com.aptopayments.sdk:mobile:1.0.0'
+```
+
+## Using the SDK
+
 To use the Android PCI SDK, simply add the `PCIView` to your layout:
 
 ```xml
@@ -9,19 +32,7 @@ To use the Android PCI SDK, simply add the `PCIView` to your layout:
     android:layout_height="300dp" />
 ```
 
-and add a property in your fragment/activity:
-
-```kotlin
-private lateinit var pciView: PCIView
-
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-    pciView = findViewById(R.id.pci_view)
-}
-```
-
-Then, initialize the SDK using the initialize medhod:
+Then, in your view layer initialize the SDK using the initialize medhod:
 
 ```kotlin
 pciView.initialise(
@@ -29,11 +40,11 @@ pciView.initialise(
     userToken = "USER_TOKEN",
     cardId = "CARD_ID",
     lastFour = "1234",
-    environment = "sandbox"
+    environment = "sbx"
 )
 ```
 
-Note: The allowed values for the `environment` parameter are `sandbox` and `production`.
+Note: The allowed values for the `environment` parameter are  `sbx` and `prd`.
 
 To show the card's last four, use the following snippet:
 
@@ -47,7 +58,7 @@ To show the card's complete data, use the following snippet:
 pciView.reveal()
 ```
 
-The PCI SDK will verify the user (if needed) and will show the card data.
+The PCI SDK will verify the user (if needed) sending an SMS and will show the card data once the verification process is completed.
 
 ## Customise the PCI SDK
 
@@ -100,9 +111,13 @@ pciView.alertTexts = mapOf(
 )
 ```
 
-## Author
+### Dialog customization
 
-Pau Teruel, pau@aptopayments.com
+By default the buttons that are shown in the Dialog to enter the SMS use your configured colorAccent but you can also configure them manually them:
+
+```kotlin
+pciView.alertButtonColor = yourIntColor
+```
 
 ## License
 

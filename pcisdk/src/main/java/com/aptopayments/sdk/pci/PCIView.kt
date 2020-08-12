@@ -7,55 +7,65 @@ import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.annotation.VisibleForTesting
+import com.aptopayments.sdk.pci.dialog.AlertButtonStylizer
+import com.aptopayments.sdk.pci.dialog.DialogFactory
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
-import org.json.JSONObject
 import kotlin.properties.Delegates
+import org.json.JSONObject
 
 private const val JS_PREFIX = "window.AptoPCISDK"
+private const val CONTAINER_LOCAL_URL = "file:///android_asset/container.html"
 
 class PCIView
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0)
-    : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
+    FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal lateinit var webView: WebView
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal lateinit var operationQueue: WebViewJSActionsQueue
-    private val webViewClient : WebViewClient = object : WebViewClient() {
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
-            operationQueue.isSuspended = false
-        }
-    }
-    private val alertHandlerWebClient = AlertHandlerWebClient()
+    private val webViewClient: WebViewClient = createWebViewClient()
+    private val alertConfig by lazy { PCIAlertConfig(alertButtonColors = getColorAccent(context)) }
+    private val alertHandlerWebClient = createAlertHandlerWebClient()
 
-    var styles: Map<String, Any> by Delegates.observable(mapOf()) { _, _ , _ ->
+    var styles: Map<String, Any> by Delegates.observable(mapOf()) { _, _, _ ->
         customiseUI()
     }
-    var showCvv: Boolean by Delegates.observable(true) { _, _ , _ ->
+    var showCvv: Boolean by Delegates.observable(true) { _, _, _ ->
         customiseUI()
     }
-    var showExp: Boolean by Delegates.observable(true) { _, _ , _ ->
+    var showExp: Boolean by Delegates.observable(true) { _, _, _ ->
         customiseUI()
     }
-    var showPan: Boolean by Delegates.observable(true) { _, _ , _ ->
+    var showPan: Boolean by Delegates.observable(true) { _, _, _ ->
         customiseUI()
     }
     var alertTexts: Map<String, String> by Delegates.observable(mapOf()) { _, _, newValue ->
-        alertHandlerWebClient.alertTexts = newValue
+        alertConfig.alertTexts = newValue
     }
 
-    private fun customiseUI() {
-        val flagsJSON = JSONObject(mapOf("showPan" to showPan, "showCvv" to showCvv, "showExp" to showExp))
-        val stylesJSON = JSONObject(styles)
-        operationQueue.addAction(action = "$JS_PREFIX.customiseUI('$flagsJSON', '$stylesJSON')")
+    var alertButtonColor: Int by Delegates.observable(getColorAccent(context)) { _, _, newValue ->
+        alertConfig.alertButtonColors = newValue
     }
 
     init {
         View.inflate(context, R.layout.view_pci_view, this)
         setUpWebView()
     }
+
+    fun initialise(apiKey: String, userToken: String, cardId: String, lastFour: String, environment: String) =
+        operationQueue.addAction("$JS_PREFIX.initialise(\"$apiKey\", \"$userToken\", \"$cardId\", \"$lastFour\", \"$environment\")")
+
+    fun lastFour() = operationQueue.addAction("$JS_PREFIX.lastFour()")
+
+    fun reveal() = operationQueue.addAction("$JS_PREFIX.reveal()")
+
+    fun obfuscate() = operationQueue.addAction("$JS_PREFIX.obfuscate()")
+
+    private fun createAlertHandlerWebClient() =
+        AlertHandlerWebClient(DialogFactory(alertConfig, AlertButtonStylizer(alertConfig)))
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
@@ -65,15 +75,23 @@ class PCIView
         webView.webChromeClient = alertHandlerWebClient
         webView.settings.javaScriptEnabled = true
         webView.setBackgroundColor(Color.TRANSPARENT)
-        webView.loadUrl("file:///android_asset/container.html")
+        webView.loadUrl(CONTAINER_LOCAL_URL)
     }
 
-    fun initialise(apiKey: String, userToken: String, cardId: String, lastFour: String, environment: String) =
-            operationQueue.addAction("$JS_PREFIX.initialise(\"$apiKey\", \"$userToken\", \"$cardId\", \"$lastFour\", \"$environment\")")
+    private fun getColorAccent(context: Context) = ColorHelper().getColorAccent(context)
 
-    fun lastFour() = operationQueue.addAction("$JS_PREFIX.lastFour()")
+    private fun customiseUI() {
+        val flagsJSON = JSONObject(mapOf("showPan" to showPan, "showCvv" to showCvv, "showExp" to showExp))
+        val stylesJSON = JSONObject(styles)
+        operationQueue.addAction(action = "$JS_PREFIX.customiseUI('$flagsJSON', '$stylesJSON')")
+    }
 
-    fun reveal() = operationQueue.addAction("$JS_PREFIX.reveal()")
-
-    fun obfuscate() = operationQueue.addAction("$JS_PREFIX.obfuscate()")
+    private fun createWebViewClient(): WebViewClient {
+        return object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                operationQueue.isSuspended = false
+            }
+        }
+    }
 }

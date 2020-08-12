@@ -1,25 +1,27 @@
 package com.aptopayments.sdk.pci
 
 import android.webkit.WebView
+import androidx.test.core.app.ApplicationProvider
 import com.aptopayments.sdk.common.WebViewFake
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
 class PCIViewTest {
     private lateinit var sut: PCIView
-    private val webView = WebViewFake(RuntimeEnvironment.application)
+    private val webView = WebViewFake(ApplicationProvider.getApplicationContext())
     private val operationQueue = WebViewJSActionsQueueSpy(webView)
 
     @Before
     fun setUp() {
-        sut = PCIView(RuntimeEnvironment.application)
+        sut = PCIView(ApplicationProvider.getApplicationContext())
         sut.operationQueue = operationQueue
         swapWebView()
     }
@@ -145,10 +147,11 @@ class PCIViewTest {
     }
 }
 
-private class WebViewJSActionsQueueSpy(webView: WebView): WebViewJSActionsQueue(webView) {
+private class WebViewJSActionsQueueSpy(webView: WebView) : WebViewJSActionsQueue(webView) {
     var addActionCalled = false
         private set
     var lastActionAdded: String? = null
+
     override fun addAction(action: String) {
         addActionCalled = true
         lastActionAdded = action
