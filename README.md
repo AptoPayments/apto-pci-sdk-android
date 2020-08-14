@@ -18,7 +18,7 @@ allprojects {
 2. On your library module's `build.gradle` add the following dependency:
 
 ```
-implementation 'com.aptopayments.sdk:mobile:1.0.0'
+implementation 'com.aptopayments.sdk:mobile:1.0.2'
 ```
 
 ## Using the SDK
@@ -71,6 +71,8 @@ You can decide which elements are shown by the PCI SDK. There are three elements
 1. PAN
 1. CVV
 1. Exp. Date
+1. "CVV" legend
+1. "EXP" legend
 
 You can, also, define the css styles of various components, including:
 
@@ -87,6 +89,8 @@ To customise the PCI look and feel, you can use the following snippet:
 pciView.showPan = true
 pciView.showCvv = false
 pciView.showExp = false
+pciView.isCvvVisible = true
+pciView.isExpVisible = true
 pciView.styles = mapOf(
     "container" to "color: red",
     "content" to mapOf(
@@ -96,6 +100,12 @@ pciView.styles = mapOf(
     )
 )
 ```
+
+- showPan : when set to true the pan will be shown
+- showCvv : when set to true the cvv will be shown
+- showExp : when set to true the expiration will be shown
+- isCvvVisible : when set to true the "CVV" legend will be shown
+- isExpVisible : when set to true the "EXP" legend will be shown
 
 ### Text customization
 

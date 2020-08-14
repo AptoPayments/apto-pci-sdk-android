@@ -18,7 +18,7 @@ function _apto_PCI_SDK_loadScript(callback) {
 function _apto_PCI_SDK_createIFrame(parent, callback) {
   var iframe = document.createElement('iframe');
   iframe.id = 'apto-iframe';
-  iframe.src = 'https://pci-web.ux.aptopayments.com/index-35661908d69af2f7563c3d3363a8fb14.html';
+  iframe.src = 'https://pci-web.ux.aptopayments.com/index-fa1bc92c0223e0667c2b81f76152615a.html';
   iframe.style = 'border-width: 0px;';
   iframe.onload = callback;
   iframe.onreadystatechange = callback;

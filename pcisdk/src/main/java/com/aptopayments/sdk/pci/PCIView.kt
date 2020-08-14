@@ -12,6 +12,7 @@ import androidx.annotation.VisibleForTesting
 import com.aptopayments.sdk.pci.dialog.AlertButtonStylizer
 import com.aptopayments.sdk.pci.dialog.DialogFactory
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
+import java.util.Locale
 import kotlin.properties.Delegates
 import org.json.JSONObject
 
@@ -42,6 +43,16 @@ class PCIView
     var showPan: Boolean by Delegates.observable(true) { _, _, _ ->
         customiseUI()
     }
+    var showName: Boolean by Delegates.observable(true) { _, _, _ ->
+        customiseUI()
+    }
+    var isCvvVisible: Boolean by Delegates.observable(true) { _, _, _ ->
+        customiseUI()
+    }
+    var isExpVisible: Boolean by Delegates.observable(true) { _, _, _ ->
+        customiseUI()
+    }
+
     var alertTexts: Map<String, String> by Delegates.observable(mapOf()) { _, _, newValue ->
         alertConfig.alertTexts = newValue
     }
@@ -55,8 +66,25 @@ class PCIView
         setUpWebView()
     }
 
-    fun initialise(apiKey: String, userToken: String, cardId: String, lastFour: String, environment: String) =
-        operationQueue.addAction("$JS_PREFIX.initialise(\"$apiKey\", \"$userToken\", \"$cardId\", \"$lastFour\", \"$environment\")")
+    fun initialise(
+        apiKey: String,
+        userToken: String,
+        cardId: String,
+        lastFour: String,
+        environment: String,
+        name: String
+    ) =
+        operationQueue.addAction(
+            "$JS_PREFIX.initialise(\"$apiKey\", \"$userToken\", \"$cardId\", \"$lastFour\", \"$environment\", \"${toUppercase(
+                name
+            )}\")"
+        )
+
+    private fun toUppercase(name: String): String {
+        return name.toUpperCase(
+            Locale.getDefault()
+        )
+    }
 
     fun lastFour() = operationQueue.addAction("$JS_PREFIX.lastFour()")
 
@@ -81,7 +109,16 @@ class PCIView
     private fun getColorAccent(context: Context) = ColorHelper().getColorAccent(context)
 
     private fun customiseUI() {
-        val flagsJSON = JSONObject(mapOf("showPan" to showPan, "showCvv" to showCvv, "showExp" to showExp))
+        val flagsJSON = JSONObject(
+            mapOf(
+                "showPan" to showPan,
+                "showCvv" to showCvv,
+                "showExp" to showExp,
+                "showName" to showName,
+                "isCvvVisible" to isCvvVisible,
+                "isExpVisible" to isExpVisible
+            )
+        )
         val stylesJSON = JSONObject(styles)
         operationQueue.addAction(action = "$JS_PREFIX.customiseUI('$flagsJSON', '$stylesJSON')")
     }

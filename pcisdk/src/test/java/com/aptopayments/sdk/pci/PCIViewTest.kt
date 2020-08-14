@@ -93,6 +93,46 @@ class PCIViewTest {
     }
 
     @Test
+    fun `isCvvVisible set to true call customiseUI with isCvvVisible to true`() {
+        // When
+        sut.isCvvVisible = true
+
+        // Then
+        assertTrue(operationQueue.addActionCalled)
+        assertTrue(operationQueue.lastActionAdded!!.contains("\"isCvvVisible\":true"))
+    }
+
+    @Test
+    fun `isCvvVisible set to false call customiseUI with isCvvVisible to false`() {
+        // When
+        sut.isCvvVisible = false
+
+        // Then
+        assertTrue(operationQueue.addActionCalled)
+        assertTrue(operationQueue.lastActionAdded!!.contains("\"isCvvVisible\":false"))
+    }
+
+    @Test
+    fun `isExpVisible set to true call customiseUI with isExpVisible to true`() {
+        // When
+        sut.isExpVisible = true
+
+        // Then
+        assertTrue(operationQueue.addActionCalled)
+        assertTrue(operationQueue.lastActionAdded!!.contains("\"isExpVisible\":true"))
+    }
+
+    @Test
+    fun `isExpVisible set to false call customiseUI with isExpVisible to false`() {
+        // When
+        sut.isExpVisible = false
+
+        // Then
+        assertTrue(operationQueue.addActionCalled)
+        assertTrue(operationQueue.lastActionAdded!!.contains("\"isExpVisible\":false"))
+    }
+
+    @Test
     fun `styles set call customiseUI`() {
         // When
         sut.styles = mapOf("font" to "Helvetica")
@@ -105,11 +145,11 @@ class PCIViewTest {
     @Test
     fun `initialise call initialise`() {
         // When
-        sut.initialise("api", "token", "card_id", "last_four", "env")
+        sut.initialise("api", "token", "card_id", "last_four", "env", "name")
 
         // Then
         assertTrue(operationQueue.addActionCalled)
-        val expectedAction = "window.AptoPCISDK.initialise(\"api\", \"token\", \"card_id\", \"last_four\", \"env\")"
+        val expectedAction = "window.AptoPCISDK.initialise(\"api\", \"token\", \"card_id\", \"last_four\", \"env\", \"NAME\")"
         assertEquals(expectedAction, operationQueue.lastActionAdded)
     }
 
