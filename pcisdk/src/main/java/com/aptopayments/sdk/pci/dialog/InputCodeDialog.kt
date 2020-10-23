@@ -5,11 +5,9 @@ import android.text.InputType
 import android.webkit.JsPromptResult
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.aptopayments.sdk.pci.PCIAlertConfig
 import com.aptopayments.sdk.pci.R
 
 internal class InputCodeDialog(
-    private val alertConfig: PCIAlertConfig,
     private val buttonStylizer: AlertButtonStylizer
 ) {
 
@@ -26,10 +24,7 @@ internal class InputCodeDialog(
         changeButtonsColor(dialog)
     }
 
-    private fun getMessage(context: Context) =
-        alertConfig.getText(context, "inputCode.message",
-            R.string.pcisdk_input_code_message
-        )
+    private fun getMessage(context: Context) = context.getString(R.string.pcisdk_input_code_message)
 
     private fun getInput(context: Context, defaultValue: String): EditText {
         return EditText(context).apply {
@@ -38,18 +33,12 @@ internal class InputCodeDialog(
         }
     }
 
-    private fun getCancelButtonTitle(context: Context) =
-        alertConfig.getText(context, "inputCode.cancelAction",
-            R.string.pcisdk_input_code_cancel
-        )
+    private fun getCancelButtonTitle(context: Context) = context.getString(R.string.pcisdk_input_code_cancel)
 
-    private fun getOkButtonTitle(context: Context) =
-        alertConfig.getText(context, "inputCode.okAction",
-            R.string.pcisdk_input_code_ok
-        )
+    private fun getOkButtonTitle(context: Context) = context.getString(R.string.pcisdk_input_code_ok)
 
     private fun changeButtonsColor(dialog: AlertDialog) {
-        buttonStylizer.style(dialog, androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
-        buttonStylizer.style(dialog, androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+        buttonStylizer.style(dialog, AlertDialog.BUTTON_NEGATIVE)
+        buttonStylizer.style(dialog, AlertDialog.BUTTON_POSITIVE)
     }
 }

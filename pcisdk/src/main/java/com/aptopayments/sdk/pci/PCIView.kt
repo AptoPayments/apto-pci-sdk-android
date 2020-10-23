@@ -9,14 +9,15 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.annotation.VisibleForTesting
+import com.aptopayments.sdk.pci.config.PCIConfig
+import com.aptopayments.sdk.pci.config.PCIConfigStyle
+import com.aptopayments.sdk.pci.config.PCIConfigStyleInternal
 import com.aptopayments.sdk.pci.dialog.AlertButtonStylizer
 import com.aptopayments.sdk.pci.dialog.DialogFactory
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
-import java.util.Locale
-import kotlin.properties.Delegates
-import org.json.JSONObject
+import com.google.gson.Gson
 
-private const val JS_PREFIX = "window.AptoPCISDK"
+private const val JS_PREFIX = "window.AptoPCISdk"
 private const val CONTAINER_LOCAL_URL = "file:///android_asset/container.html"
 
 class PCIView
@@ -27,73 +28,55 @@ class PCIView
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal lateinit var operationQueue: WebViewJSActionsQueue
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var gson = Gson()
+
     private val webViewClient: WebViewClient = createWebViewClient()
     private val alertConfig by lazy { PCIAlertConfig(alertButtonColors = getColorAccent(context)) }
     private val alertHandlerWebClient = createAlertHandlerWebClient()
-
-    var styles: Map<String, Any> by Delegates.observable(mapOf()) { _, _, _ ->
-        customiseUI()
-    }
-    var showCvv: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-    var showExp: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-    var showPan: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-    var showName: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-    var isCvvVisible: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-    var isExpVisible: Boolean by Delegates.observable(true) { _, _, _ ->
-        customiseUI()
-    }
-
-    var alertTexts: Map<String, String> by Delegates.observable(mapOf()) { _, _, newValue ->
-        alertConfig.alertTexts = newValue
-    }
-
-    var alertButtonColor: Int by Delegates.observable(getColorAccent(context)) { _, _, newValue ->
-        alertConfig.alertButtonColors = newValue
-    }
 
     init {
         View.inflate(context, R.layout.view_pci_view, this)
         setUpWebView()
     }
 
-    fun initialise(
-        apiKey: String,
-        userToken: String,
-        cardId: String,
-        lastFour: String,
-        environment: String,
-        name: String
-    ) =
-        operationQueue.addAction(
-            "$JS_PREFIX.initialise(\"$apiKey\", \"$userToken\", \"$cardId\", \"$lastFour\", \"$environment\", \"${toUppercase(
-                name
-            )}\")"
-        )
-
-    private fun toUppercase(name: String): String {
-        return name.toUpperCase(
-            Locale.getDefault()
-        )
+    fun init(config: PCIConfig) {
+        initPCIView(config)
+        setStyle(config.style)
     }
 
-    fun lastFour() = operationQueue.addAction("$JS_PREFIX.lastFour()")
+    fun showPCIData() = sendActionToJs("$JS_PREFIX.showPCIData()")
 
-    fun reveal() = operationQueue.addAction("$JS_PREFIX.reveal()")
+    fun hidePCIData() = sendActionToJs("$JS_PREFIX.hidePCIData()")
 
-    fun obfuscate() = operationQueue.addAction("$JS_PREFIX.obfuscate()")
+    private fun initPCIView(config: PCIConfig) {
+        sendActionToJs("$JS_PREFIX.init(${toJson(config)})")
+    }
+
+    fun setStyle(value: PCIConfigStyle?) {
+        value?.let {
+            it.alertButtonColor?.let { color -> alertConfig.alertButtonColors = color }
+            setTextColor(it)
+        }
+    }
+
+    private fun setTextColor(style: PCIConfigStyle) {
+        style.textColor?.let { intColor ->
+            val hexColor = getHexColorFromInt(intColor)
+            val json = toJson(PCIConfigStyleInternal.createConfigWithTextColor(hexColor))
+            sendActionToJs("$JS_PREFIX.setStyle($json)")
+        }
+    }
+
+    private fun getHexColorFromInt(intColor: Int) = String.format("#%06X", 0xFFFFFF and intColor)
+
+    private fun sendActionToJs(action: String) {
+        operationQueue.addAction(action)
+    }
 
     private fun createAlertHandlerWebClient() =
-        AlertHandlerWebClient(DialogFactory(alertConfig, AlertButtonStylizer(alertConfig)))
+        AlertHandlerWebClient(DialogFactory(AlertButtonStylizer(alertConfig)))
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
@@ -108,21 +91,6 @@ class PCIView
 
     private fun getColorAccent(context: Context) = ColorHelper().getColorAccent(context)
 
-    private fun customiseUI() {
-        val flagsJSON = JSONObject(
-            mapOf(
-                "showPan" to showPan,
-                "showCvv" to showCvv,
-                "showExp" to showExp,
-                "showName" to showName,
-                "isCvvVisible" to isCvvVisible,
-                "isExpVisible" to isExpVisible
-            )
-        )
-        val stylesJSON = JSONObject(styles)
-        operationQueue.addAction(action = "$JS_PREFIX.customiseUI('$flagsJSON', '$stylesJSON')")
-    }
-
     private fun createWebViewClient(): WebViewClient {
         return object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -131,4 +99,6 @@ class PCIView
             }
         }
     }
+
+    private fun toJson(config: Any) = gson.toJson(config)
 }

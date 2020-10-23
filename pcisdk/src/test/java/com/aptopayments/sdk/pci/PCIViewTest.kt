@@ -1,11 +1,13 @@
 package com.aptopayments.sdk.pci
 
-import android.webkit.WebView
 import androidx.test.core.app.ApplicationProvider
 import com.aptopayments.sdk.common.WebViewFake
+import com.aptopayments.sdk.pci.config.PCIConfig
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import com.google.gson.Gson
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +19,7 @@ import org.robolectric.annotation.Config
 class PCIViewTest {
     private lateinit var sut: PCIView
     private val webView = WebViewFake(ApplicationProvider.getApplicationContext())
-    private val operationQueue = WebViewJSActionsQueueSpy(webView)
+    private val operationQueue = mock<WebViewJSActionsQueue>()
 
     @Before
     fun setUp() {
@@ -33,167 +35,32 @@ class PCIViewTest {
     }
 
     @Test
-    fun `show cvv set to true call customiseUI with show cvv to true`() {
-        // When
-        sut.showCvv = true
+    fun `whenever init called then init in Js is called with correct parameters`() {
+        val json = "THIS IS A JSON"
+        val config: PCIConfig = mock()
+        val gson: Gson = mock()
+        sut.gson = gson
+        whenever(gson.toJson(config)).thenReturn(json)
 
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showCvv\":true"))
+        sut.init(config)
+
+        val expectedAction = "window.AptoPCISdk.init($json)"
+        verify(operationQueue).addAction(expectedAction)
     }
 
     @Test
-    fun `show cvv set to false call customiseUI with show cvv to false`() {
-        // When
-        sut.showCvv = false
+    fun `whenever showPCIData called then showPCIData in Js is called`() {
+        sut.showPCIData()
 
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showCvv\":false"))
+        val expectedAction = "window.AptoPCISdk.showPCIData()"
+        verify(operationQueue).addAction(expectedAction)
     }
 
     @Test
-    fun `show exp set to true call customiseUI with show exp to true`() {
-        // When
-        sut.showExp = true
+    fun `whenever hidePCIData called then hidePCIData in Js is called`() {
+        sut.hidePCIData()
 
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showExp\":true"))
-    }
-
-    @Test
-    fun `show exp set to false call customiseUI with show exp to false`() {
-        // When
-        sut.showExp = false
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showExp\":false"))
-    }
-
-    @Test
-    fun `show pan set to true call customiseUI with show pan to true`() {
-        // When
-        sut.showPan = true
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showPan\":true"))
-    }
-
-    @Test
-    fun `show pan set to false call customiseUI with show pan to false`() {
-        // When
-        sut.showPan = false
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"showPan\":false"))
-    }
-
-    @Test
-    fun `isCvvVisible set to true call customiseUI with isCvvVisible to true`() {
-        // When
-        sut.isCvvVisible = true
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"isCvvVisible\":true"))
-    }
-
-    @Test
-    fun `isCvvVisible set to false call customiseUI with isCvvVisible to false`() {
-        // When
-        sut.isCvvVisible = false
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"isCvvVisible\":false"))
-    }
-
-    @Test
-    fun `isExpVisible set to true call customiseUI with isExpVisible to true`() {
-        // When
-        sut.isExpVisible = true
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"isExpVisible\":true"))
-    }
-
-    @Test
-    fun `isExpVisible set to false call customiseUI with isExpVisible to false`() {
-        // When
-        sut.isExpVisible = false
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("\"isExpVisible\":false"))
-    }
-
-    @Test
-    fun `styles set call customiseUI`() {
-        // When
-        sut.styles = mapOf("font" to "Helvetica")
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        assertTrue(operationQueue.lastActionAdded!!.contains("{\"font\":\"Helvetica\"}"))
-    }
-
-    @Test
-    fun `initialise call initialise`() {
-        // When
-        sut.initialise("api", "token", "card_id", "last_four", "env", "name")
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        val expectedAction = "window.AptoPCISDK.initialise(\"api\", \"token\", \"card_id\", \"last_four\", \"env\", \"NAME\")"
-        assertEquals(expectedAction, operationQueue.lastActionAdded)
-    }
-
-    @Test
-    fun `lastFour call lastFour`() {
-        // When
-        sut.lastFour()
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        val expectedAction = "window.AptoPCISDK.lastFour()"
-        assertEquals(expectedAction, operationQueue.lastActionAdded)
-    }
-
-    @Test
-    fun `reveal call reveal`() {
-        // When
-        sut.reveal()
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        val expectedAction = "window.AptoPCISDK.reveal()"
-        assertEquals(expectedAction, operationQueue.lastActionAdded)
-    }
-
-    @Test
-    fun `obfuscate call obfuscate`() {
-        // When
-        sut.obfuscate()
-
-        // Then
-        assertTrue(operationQueue.addActionCalled)
-        val expectedAction = "window.AptoPCISDK.obfuscate()"
-        assertEquals(expectedAction, operationQueue.lastActionAdded)
-    }
-}
-
-private class WebViewJSActionsQueueSpy(webView: WebView) : WebViewJSActionsQueue(webView) {
-    var addActionCalled = false
-        private set
-    var lastActionAdded: String? = null
-
-    override fun addAction(action: String) {
-        addActionCalled = true
-        lastActionAdded = action
+        val expectedAction = "window.AptoPCISdk.hidePCIData()"
+        verify(operationQueue).addAction(expectedAction)
     }
 }

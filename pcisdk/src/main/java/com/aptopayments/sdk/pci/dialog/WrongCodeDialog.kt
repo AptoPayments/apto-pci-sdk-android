@@ -3,11 +3,9 @@ package com.aptopayments.sdk.pci.dialog
 import android.content.Context
 import android.webkit.JsResult
 import androidx.appcompat.app.AlertDialog
-import com.aptopayments.sdk.pci.PCIAlertConfig
 import com.aptopayments.sdk.pci.R
 
 internal class WrongCodeDialog(
-    private val config: PCIAlertConfig,
     private val buttonStylizer: AlertButtonStylizer
 ) {
 
@@ -21,15 +19,7 @@ internal class WrongCodeDialog(
         buttonStylizer.style(dialog, AlertDialog.BUTTON_POSITIVE)
     }
 
-    private fun getOkButtonTitle(context: Context) =
-        config.getText(
-            context, "wrongCode.okAction",
-            R.string.pcisdk_wrong_code_ok
-        )
+    private fun getOkButtonTitle(context: Context) = context.getString(R.string.pcisdk_wrong_code_ok)
 
-    private fun getMessage(context: Context) =
-        config.getText(
-            context, "wrongCode.message",
-            R.string.pcisdk_wrong_code_message
-        )
+    private fun getMessage(context: Context) = context.getString(R.string.pcisdk_wrong_code_message)
 }
