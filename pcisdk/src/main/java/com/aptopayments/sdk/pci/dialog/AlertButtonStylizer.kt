@@ -7,6 +7,6 @@ internal class AlertButtonStylizer(private val alertConfig: PCIAlertConfig) {
 
     fun style(dialog: AlertDialog, buttonId: Int) {
         val button = dialog.getButton(buttonId)
-        button.setTextColor(alertConfig.alertButtonColors)
+        button.setTextColor(alertConfig.alertButtonColor)
     }
 }

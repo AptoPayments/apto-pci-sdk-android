@@ -17,7 +17,7 @@ class AlertButtonStylizerTest {
     fun `when style then correct color applied`() {
         val dialog: AlertDialog = mock()
         val button: Button = mock()
-        val alertConfig = PCIAlertConfig(alertButtonColors = BUTTON_COLOR)
+        val alertConfig = PCIAlertConfig(alertButtonColor = BUTTON_COLOR)
         val sut = AlertButtonStylizer(alertConfig)
 
         whenever(dialog.getButton(BUTTON_ID)).thenReturn(button)

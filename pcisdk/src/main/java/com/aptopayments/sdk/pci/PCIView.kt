@@ -8,6 +8,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import androidx.annotation.ColorRes
 import androidx.annotation.VisibleForTesting
 import com.aptopayments.sdk.pci.config.PCIConfig
 import com.aptopayments.sdk.pci.config.PCIConfigStyle
@@ -32,8 +33,9 @@ class PCIView
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal var gson = Gson()
 
+    private val alertConfig: PCIAlertConfig =
+        PCIAlertConfig(alertButtonColor = getColorFromResources(R.color.pcisdk_alert_button_color))
     private val webViewClient: WebViewClient = createWebViewClient()
-    private val alertConfig by lazy { PCIAlertConfig(alertButtonColors = getColorAccent(context)) }
     private val alertHandlerWebClient = createAlertHandlerWebClient()
 
     init {
@@ -43,7 +45,7 @@ class PCIView
 
     fun init(config: PCIConfig) {
         initPCIView(config)
-        setStyle(config.style)
+        config.style?.let { setStyle(it) }
     }
 
     fun showPCIData() = sendActionToJs("$JS_PREFIX.showPCIData()")
@@ -54,22 +56,29 @@ class PCIView
         sendActionToJs("$JS_PREFIX.init(${toJson(config)})")
     }
 
-    fun setStyle(value: PCIConfigStyle?) {
-        value?.let {
-            it.alertButtonColor?.let { color -> alertConfig.alertButtonColors = color }
-            setTextColor(it)
+    fun setStyle(style: PCIConfigStyle) {
+        setAlertButtonColor(style)
+        setJsStyle(style)
+    }
+
+    private fun setAlertButtonColor(style: PCIConfigStyle?) {
+        style?.alertButtonColor?.let { color ->
+            alertConfig.alertButtonColor = color
         }
     }
 
-    private fun setTextColor(style: PCIConfigStyle) {
-        style.textColor?.let { intColor ->
-            val hexColor = getHexColorFromInt(intColor)
-            val json = toJson(PCIConfigStyleInternal.createConfigWithTextColor(hexColor))
-            sendActionToJs("$JS_PREFIX.setStyle($json)")
-        }
+    private fun setJsStyle(style: PCIConfigStyle?) {
+        val hexColor = getHexColorFromInt(getCardTextColor(style))
+        val json = toJson(PCIConfigStyleInternal.createConfigWithTextColor(hexColor))
+        sendActionToJs("$JS_PREFIX.setStyle($json)")
     }
 
-    private fun getHexColorFromInt(intColor: Int) = String.format("#%06X", 0xFFFFFF and intColor)
+    private fun getCardTextColor(style: PCIConfigStyle?) =
+        style?.textColor ?: getColorFromResources(R.color.pcisdk_text_color)
+
+    private fun getColorFromResources(@ColorRes id: Int) = resources.getColor(id, null)
+
+    private fun getHexColorFromInt(intColor: Int) = String.format("%06X", 0xFFFFFF and intColor)
 
     private fun sendActionToJs(action: String) {
         operationQueue.addAction(action)
@@ -88,8 +97,6 @@ class PCIView
         webView.setBackgroundColor(Color.TRANSPARENT)
         webView.loadUrl(CONTAINER_LOCAL_URL)
     }
-
-    private fun getColorAccent(context: Context) = ColorHelper().getColorAccent(context)
 
     private fun createWebViewClient(): WebViewClient {
         return object : WebViewClient() {

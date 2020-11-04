@@ -56,7 +56,7 @@ allprojects {
 2. In your app's `build.gradle`, add the following dependency:
 
 ```
-implementation 'com.aptopayments.sdk:mobile:2.0.0'
+implementation 'com.aptopayments.sdk:pci:2.0.0'
 ```
 
 ## Initialize the SDK
@@ -114,7 +114,8 @@ val configCard = PCIConfigCard(nameOnCard = "NAME_ON_CARD", lastFour = "1234")
 4. *(Optional)* Create a `PCIConfigStyle` object, passing any desired style settings. See [Style Card Elements](#user-content-style-card-elements) for more info.
 
 ```kotlin
-val style = PCIConfigStyle(textColor = "FFFF00")
+val color = resources.getColor(R.color.card_text_color, null)
+val style = PCIConfigStyle(textColor = color)
 ```
 
 5. Create a `PCIConfig` object, passing in the `configAuth`, `configCard`, and/or `style` parameters. See [Display Card Data Elements](#user-content-display-card-data-elements) for more information about the `PCIConfig` object.
@@ -162,9 +163,19 @@ Property|Description
 
 ### Style Card Elements
 
+To style the PCIView:
 
-TODO This will be completed in a following PR
+* Use the `PCIConfigStyle` object:
+	* When the the `pci_view` is initialized.
+	* In the `setStyle` method anytime after initialization.
+* Override the values in the [`colors.xml` file](AptoPCISDK/pcisdk/src/main/res/values).
 
+The following configuration options are available: 
+
+Property|Description
+---|---
+`textColor`|An `Int` value specifying the color of the card text elements. The default color value corresponds to the `pcisdk_text_color` property in the [`colors.xml` file](AptoPCISDK/pcisdk/src/main/res/values/colors.xml).
+`alertButtonColor`|An `Int` value specifying the color of the Alert button(s). The default color value corresponds to the `pcisdk_alert_button_color ` in the [`colors.xml` file](AptoPCISDK/pcisdk/src/main/res/values/colors.xml).
 
 ### Style Alerts
 
@@ -187,13 +198,17 @@ Text Option|Description
 
 #### Style Alert Buttons
 
-An alert button appears to prompt the user to enter their SMS / email code, and when the user incorrectly enters the code. By default, the button color uses your app's configured `colorAccent` value.
+An alert button appears:
 
-The background color of this button can be customized by setting the `alertButtonColor` attribute to an `Int` color value:
+* To prompt the user to enter their SMS / email code
+* When the user incorrectly enters the code.
 
-```kotlin
-pciView.alertButtonColor = yourIntColor
-```
+By default, the button color uses a dark text color. To customize the alert button:
+
+* Use the `PCIConfigStyle` object to set the `alertTextColor` property:
+	* When the the `pci_view` is initialized.
+	* In the `setStyle` method anytime after initialization.
+* Override the `pcisdk_alert_text_color` value in the [`colors.xml` file](AptoPCISDK/pcisdk/src/main/res/values/colors.xml).
 
 ## Contributions & Development
 
