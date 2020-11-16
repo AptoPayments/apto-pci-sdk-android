@@ -5,11 +5,13 @@ import android.text.InputType
 import android.webkit.JsPromptResult
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.aptopayments.sdk.pci.DialogStateRepository
 import com.aptopayments.sdk.pci.R
 
 internal class InputCodeDialog(
-    private val buttonStylizer: AlertButtonStylizer
-) {
+    private val buttonStylizer: AlertButtonStylizer,
+    stateRepository: DialogStateRepository
+) : BaseDialog(stateRepository) {
 
     fun show(context: Context, defaultValue: String, result: JsPromptResult) {
         val input = getInput(context, defaultValue)
@@ -20,6 +22,7 @@ internal class InputCodeDialog(
             .setPositiveButton(getOkButtonTitle(context)) { _, _ -> result.confirm(input.text.toString()) }
             .setNegativeButton(getCancelButtonTitle(context)) { _, _ -> result.cancel() }
             .create()
+        configureDialog(dialog)
         dialog.show()
         changeButtonsColor(dialog)
     }

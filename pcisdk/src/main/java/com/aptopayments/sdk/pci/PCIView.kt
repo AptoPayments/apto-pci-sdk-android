@@ -33,6 +33,9 @@ class PCIView
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal var gson = Gson()
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal val stateRepository: DialogStateRepository = DialogStateRepositoryImpl
+
     private val alertConfig: PCIAlertConfig =
         PCIAlertConfig(alertButtonColor = getColorFromResources(R.color.pcisdk_alert_button_color))
     private val webViewClient: WebViewClient = createWebViewClient()
@@ -50,7 +53,11 @@ class PCIView
 
     fun showPCIData() = sendActionToJs("$JS_PREFIX.showPCIData()")
 
-    fun hidePCIData() = sendActionToJs("$JS_PREFIX.hidePCIData()")
+    fun hidePCIData() {
+        if (!stateRepository.isDialogShown()) {
+            sendActionToJs("$JS_PREFIX.hidePCIData()")
+        }
+    }
 
     private fun initPCIView(config: PCIConfig) {
         sendActionToJs("$JS_PREFIX.init(${toJson(config)})")
@@ -85,7 +92,7 @@ class PCIView
     }
 
     private fun createAlertHandlerWebClient() =
-        AlertHandlerWebClient(DialogFactory(AlertButtonStylizer(alertConfig)))
+        AlertHandlerWebClient(DialogFactory(AlertButtonStylizer(alertConfig), stateRepository))
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {

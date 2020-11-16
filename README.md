@@ -87,7 +87,12 @@ To initialize the PCI SDK:
 </androidx.constraintlayout.widget.ConstraintLayout>    
 ```
 
-2. In a file that can access your `pci_view` component, create a `PCIConfigAuth` object. This manages the authentication configuration settings.
+2. You will need to implement the [Android Mobile SDK](https://github.com/AptoPayments/apto-sdk-android) or the [Mobile API](https://docs.aptopayments.com/api/MobileAPI.html) to retrieve the following values:
+
+	* User Session Token
+	* Card account ID
+
+3. In a file that can access your `pci_view` component, create a `PCIConfigAuth` object. This manages the authentication configuration settings.
 
 ```kotlin
 val configAuth = PCIConfigAuth(
@@ -102,29 +107,29 @@ Parameter|Description
 ---|---
 `apiKey`|This value is the Mobile API Key (`MOBILE_API_KEY`) retrieved from the [Apto Developer Portal](https://developer.aptopayments.com).
 `userToken`|This value is the user session token (`USER_TOKEN`) retrieved from the login flow.
-`cardId`|This value is the account ID (`ACCOUNT_ID`) of the card.
+`cardId`|This value is the account ID (`ACCOUNT_ID`) of the card with the format `crd_XXXXXXXXXX`.
 `environment`|This value is the deployment mode for your app. The available values are:<ul><li>`PCIEnvironment.SBX` - Sandbox mode</li><li>`PCIEnvironment.PRD` - Production mode</li></ul>
 
-3. *(Optional)* Create a `PCIConfigCard` object, passing in the cardholder's name and the last four digits of the card. See [Display Card Data Elements](#user-content-display-card-data-elements) for more info.
+4. *(Optional)* Create a `PCIConfigCard` object, passing in the cardholder's name and the last four digits of the card. See [Display Card Data Elements](#user-content-display-card-data-elements) for more info.
 
 ```kotlin
 val configCard = PCIConfigCard(nameOnCard = "NAME_ON_CARD", lastFour = "1234")
 ```
 
-4. *(Optional)* Create a `PCIConfigStyle` object, passing any desired style settings. See [Style Card Elements](#user-content-style-card-elements) for more info.
+5. *(Optional)* Create a `PCIConfigStyle` object, passing any desired style settings. See [Style Card Elements](#user-content-style-card-elements) for more info.
 
 ```kotlin
 val color = resources.getColor(R.color.card_text_color, null)
 val style = PCIConfigStyle(textColor = color)
 ```
 
-5. Create a `PCIConfig` object, passing in the `configAuth`, `configCard`, and/or `style` parameters. See [Display Card Data Elements](#user-content-display-card-data-elements) for more information about the `PCIConfig` object.
+6. Create a `PCIConfig` object, passing in the `configAuth`, `configCard`, and/or `style` parameters. See [Display Card Data Elements](#user-content-display-card-data-elements) for more information about the `PCIConfig` object.
 
 ```kotlin
 val pciConfig = PCIConfig(configAuth = configAuth, configCard = configCard, style = style)
 ```
 
-5. Initialize the PCI view using `pci_view.init`, passing in the `pciConfig` as the `PCIConfig` object.
+7. Initialize the PCI view using `pci_view.init`, passing in the `pciConfig` as the `PCIConfig` object.
 
 ```kotlin
 pci_view.init(pciConfig)

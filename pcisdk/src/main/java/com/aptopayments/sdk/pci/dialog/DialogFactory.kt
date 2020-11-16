@@ -1,8 +1,10 @@
 package com.aptopayments.sdk.pci.dialog
 
-internal class DialogFactory(private val stylizer: AlertButtonStylizer) {
+import com.aptopayments.sdk.pci.DialogStateRepository
 
-    fun getInputCodeDialog() = InputCodeDialog(stylizer)
+internal class DialogFactory(private val stylizer: AlertButtonStylizer, private val stateRepo: DialogStateRepository) {
 
-    fun getWrongCodeDialog() = WrongCodeDialog(stylizer)
+    fun getInputCodeDialog() = InputCodeDialog(stylizer, stateRepo)
+
+    fun getWrongCodeDialog() = WrongCodeDialog(stylizer, stateRepo)
 }
