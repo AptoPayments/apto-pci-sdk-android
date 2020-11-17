@@ -56,7 +56,7 @@ allprojects {
 2. In your app's `build.gradle`, add the following dependency:
 
 ```
-implementation 'com.aptopayments.sdk:pci:2.0.0'
+implementation 'com.aptopayments.sdk:pci:2.0.2'
 ```
 
 ## Initialize the SDK
