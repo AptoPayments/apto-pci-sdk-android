@@ -228,4 +228,4 @@ If you want to help improve the SDK by adding a new feature or bug fix, we'd be 
 
 ## License
 
-AptoPCISDK is available under the MIT license. See the [LICENSE file](https://github.com/AptoPayments/apto-pci-sdk-android/AptoPCISDK/LICENSE) for more info.
+AptoPCISDK is available under the MIT license. See the [LICENSE file](LICENSE) for more info.
