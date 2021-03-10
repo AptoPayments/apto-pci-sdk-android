@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fbecef59-c14e-4d64-bd73-bc03883b74a1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/assets/container.html" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/assets/container.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/AlertHandlerWebClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/AlertHandlerWebClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/ColorHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/ColorHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/DialogStateRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/DialogStateRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/PCIAlertConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/PCIAlertConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/PCIView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/PCIView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigAuth.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigAuth.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigStyle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigStyle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigStyleInternal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIConfigStyleInternal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIEnvironment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/config/PCIEnvironment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/AlertButtonStylizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/AlertButtonStylizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/BaseDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/BaseDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/DialogFactory.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/DialogFactory.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/InputCodeDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/InputCodeDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/WrongCodeDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/pci/dialog/WrongCodeDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/queue/WebViewJSActionsQueue.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/java/com/aptopayments/sdk/queue/WebViewJSActionsQueue.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/res/layout/view_pci_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/res/layout/view_pci_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/common/WebViewFake.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/common/WebViewFake.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/common/WebViewSpy.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/common/WebViewSpy.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/AlertHandlerWebClientTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/AlertHandlerWebClientTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/DialogStateRepositoryImplTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/DialogStateRepositoryImplTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/PCIViewTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/PCIViewTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/config/ConfigStyleTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/config/ConfigStyleTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/dialog/AlertButtonStylizerTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/pci/dialog/AlertButtonStylizerTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/queue/WebViewJSActionsQueueTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/java/com/aptopayments/sdk/queue/WebViewJSActionsQueueTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcisdk/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" beforeDir="false" afterPath="$PROJECT_DIR$/pcisdk/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1lWTatzC365CtmHTGRs9UTjoP8p" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fbecef59-c14e-4d64-bd73-bc03883b74a1" name="Default Changelist" comment="" />
+      <created>1607711913555</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607711913555</updated>
+    </task>
+    <servers />
+  </component>
+</project>
