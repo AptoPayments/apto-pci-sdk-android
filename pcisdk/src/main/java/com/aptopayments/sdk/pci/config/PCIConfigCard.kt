@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * @property lastFour String. Sets the last four numbers of the card. If not present "****" is displayed (Optional parameter).
- * @property labelPan String. The default value for this label is empty (Optional parameter).
+ * @property labelPan String. The default value for this label is "Card Number" (Optional parameter).
  * @property labelCvv String. The default value for this label is "CVV" (Optional parameter).
  * @property labelExp String. The default value for this label is "EXP" (Optional parameter).
- * @property labelName String The default value for this label is empty (Optional parameter).
+ * @property labelName String The default value for this label is "Name" (Optional parameter).
  * @property nameOnCard String. The name that will be displayed in the card (Optional parameter).
  */
 data class PCIConfigCard(

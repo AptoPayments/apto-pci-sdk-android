@@ -19,13 +19,15 @@ internal class InputCodeDialog(
             .setTitle("")
             .setView(input)
             .setMessage(getMessage(context))
-            .setPositiveButton(getOkButtonTitle(context)) { _, _ -> result.confirm(input.text.toString()) }
+            .setPositiveButton(getOkButtonTitle(context)) { _, _ -> result.confirm(getInput(input)) }
             .setNegativeButton(getCancelButtonTitle(context)) { _, _ -> result.cancel() }
             .create()
         configureDialog(dialog)
         dialog.show()
         changeButtonsColor(dialog)
     }
+
+    private fun getInput(input: EditText) = if (input.text.toString().isNotEmpty()) input.text.toString() else " "
 
     private fun getMessage(context: Context) = context.getString(R.string.pcisdk_input_code_message)
 

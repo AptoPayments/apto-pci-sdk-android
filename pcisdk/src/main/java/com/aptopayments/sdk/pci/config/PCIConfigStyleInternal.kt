@@ -6,11 +6,26 @@ internal data class PCIConfigStyleInternal(
     @SerializedName("extends")
     val extends: String? = null,
     @SerializedName("container")
-    val container: Map<String, String>? = null
+    val container: Map<String, String>? = null,
+    @SerializedName("labelPan")
+    val labelPan: Map<String, String>? = null,
+    @SerializedName("labelCvv")
+    val labelCvv: Map<String, String>? = null,
+    @SerializedName("labelExp")
+    val labelExp: Map<String, String>? = null,
+    @SerializedName("labelName")
+    val labelName: Map<String, String>? = null
 ) {
     companion object {
-        fun createConfigWithTextColor(textColor: String): PCIConfigStyleInternal {
-            return PCIConfigStyleInternal(extends = "dark", container = mapOf("color" to "#$textColor"))
+        fun createConfig(textColor: String, style: PCIConfigStyle?): PCIConfigStyleInternal {
+            return PCIConfigStyleInternal(
+                extends = "dark",
+                container = mapOf("color" to "#$textColor"),
+                labelPan = style?.labelPan,
+                labelCvv = style?.labelCvv,
+                labelExp = style?.labelExp,
+                labelName = style?.labelName
+            )
         }
     }
 }

@@ -1,4 +1,5 @@
 # Apto Android PCI SDK
+![https://img.shields.io/maven-central/v/com.aptopayments.sdk/pci.svg?style=flat](https://img.shields.io/maven-central/v/com.aptopayments.sdk/pci.svg?style=flat)
 
 The Apto PCI SDK provides a transparent `View` that can display the PCI data using a `webView`.
 

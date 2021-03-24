@@ -1,9 +1,9 @@
 package com.aptopayments.sdk.pci
 
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import org.junit.After
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class DialogStateRepositoryImplTest {
 

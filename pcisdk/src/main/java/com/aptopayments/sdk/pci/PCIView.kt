@@ -76,7 +76,7 @@ class PCIView
 
     private fun setJsStyle(style: PCIConfigStyle?) {
         val hexColor = getHexColorFromInt(getCardTextColor(style))
-        val json = toJson(PCIConfigStyleInternal.createConfigWithTextColor(hexColor))
+        val json = toJson(PCIConfigStyleInternal.createConfig(hexColor, style))
         sendActionToJs("$JS_PREFIX.setStyle($json)")
     }
 
