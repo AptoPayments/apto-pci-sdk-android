@@ -9,7 +9,7 @@ internal open class WebViewSpy(context: Context) : WebView(context) {
         private set
     var evaluateJavascriptCallsCount = 0
 
-    override fun evaluateJavascript(script: String?, resultCallback: ValueCallback<String>?) {
+    override fun evaluateJavascript(script: String, resultCallback: ValueCallback<String>?) {
         super.evaluateJavascript(script, resultCallback)
         evaluateJavascriptCalled = true
         evaluateJavascriptCallsCount += 1

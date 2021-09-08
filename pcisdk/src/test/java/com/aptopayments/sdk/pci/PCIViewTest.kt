@@ -5,13 +5,12 @@ import com.aptopayments.sdk.common.WebViewFake
 import com.aptopayments.sdk.pci.config.PCIConfig
 import com.aptopayments.sdk.queue.WebViewJSActionsQueue
 import com.google.gson.Gson
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -54,37 +53,6 @@ class PCIViewTest {
         sut.showPCIData()
 
         val expectedAction = "window.AptoPCISdk.showPCIData()"
-        verify(operationQueue).addAction(expectedAction)
-    }
-
-    @Test
-    fun `whenever hidePCIData called with dialog Hidden then hidePCIData in Js is called`() {
-        sut.stateRepository.dialogHidden()
-
-        sut.hidePCIData()
-
-        val expectedAction = "window.AptoPCISdk.hidePCIData()"
-        verify(operationQueue).addAction(expectedAction)
-    }
-
-    @Test
-    fun `whenever hidePCIData called with dialog shown then hidePCIData in Js is not called`() {
-        sut.stateRepository.dialogShown()
-
-        sut.hidePCIData()
-
-        val expectedAction = "window.AptoPCISdk.hidePCIData()"
-        verify(operationQueue, times(0)).addAction(expectedAction)
-    }
-
-    @Test
-    fun `whenever hidePCIData called with dialog hidden after being shown then hidePCIData in Js is not called`() {
-        sut.stateRepository.dialogShown()
-        sut.stateRepository.dialogHidden()
-
-        sut.hidePCIData()
-
-        val expectedAction = "window.AptoPCISdk.hidePCIData()"
         verify(operationQueue).addAction(expectedAction)
     }
 }

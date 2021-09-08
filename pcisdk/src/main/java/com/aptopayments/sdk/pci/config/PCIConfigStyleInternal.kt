@@ -17,9 +17,13 @@ internal data class PCIConfigStyleInternal(
     val labelName: Map<String, String>? = null
 ) {
     companion object {
-        fun createConfig(textColor: String, style: PCIConfigStyle?): PCIConfigStyleInternal {
+        fun createConfig(
+            textColor: String,
+            style: PCIConfigStyle?,
+            theme: String?
+        ): PCIConfigStyleInternal {
             return PCIConfigStyleInternal(
-                extends = "dark",
+                extends = theme ?: "dark",
                 container = mapOf("color" to "#$textColor"),
                 labelPan = style?.labelPan,
                 labelCvv = style?.labelCvv,

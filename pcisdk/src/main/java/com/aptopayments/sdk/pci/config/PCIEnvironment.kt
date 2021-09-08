@@ -12,7 +12,7 @@ enum class PCIEnvironment {
         fun fromString(value: String): PCIEnvironment {
             return try {
                 valueOf(value.toUpperCase(Locale.US))
-            } catch (exception: Throwable) {
+            } catch (exception: IllegalArgumentException) {
                 SBX
             }
         }
