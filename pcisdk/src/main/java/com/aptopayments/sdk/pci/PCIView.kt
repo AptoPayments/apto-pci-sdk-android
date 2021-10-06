@@ -55,6 +55,10 @@ class PCIView
         sendActionToJs("$JS_PREFIX.hidePCIData()")
     }
 
+    fun showSetPinForm() {
+        sendActionToJs("$JS_PREFIX.showSetPinForm()")
+    }
+
     private fun initPCIView(config: PCIConfig) {
         sendActionToJs("$JS_PREFIX.init(${toJson(config)})")
     }

@@ -55,4 +55,12 @@ class PCIViewTest {
         val expectedAction = "window.AptoPCISdk.showPCIData()"
         verify(operationQueue).addAction(expectedAction)
     }
+
+    @Test
+    fun `whenever showSetPinForm called then showPCIData in Js is called`() {
+        sut.showSetPinForm()
+
+        val expectedAction = "window.AptoPCISdk.showSetPinForm()"
+        verify(operationQueue).addAction(expectedAction)
+    }
 }

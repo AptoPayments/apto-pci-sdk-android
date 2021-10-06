@@ -3,13 +3,13 @@
 
 The Apto PCI SDK provides a transparent `View` that can display the PCI data using a `webView`.
 
-For more information about the SDK and deployment, see the [Android PCI SDK docs](http://docs.aptopayments.com/docs/pci-sdk-android)
+For more information about the SDK and deployment, see the [Android PCI SDK docs](https://docs.aptopayments.com/docs/sdks/Android/pci_sdk_android)
 
 ## Contributions & Development
 
 We look forward to receiving your feedback, including new feature requests, bug fixes and documentation improvements.
 
-If you would like to contribute to the SDK development, see [Contributions & Development](http://docs.aptopayments.com/docs/pci-sdk-android#contributions--development).
+If you would like to contribute to the SDK development, see [Contributions & Development](https://docs.aptopayments.com/docs/sdks/Android/pci_sdk_android).
 
 ## License
 
