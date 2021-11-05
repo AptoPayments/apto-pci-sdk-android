@@ -11,7 +11,7 @@ enum class PCIEnvironment {
     companion object {
         fun fromString(value: String): PCIEnvironment {
             return try {
-                valueOf(value.toUpperCase(Locale.US))
+                valueOf(value.uppercase(Locale.US))
             } catch (exception: IllegalArgumentException) {
                 SBX
             }
