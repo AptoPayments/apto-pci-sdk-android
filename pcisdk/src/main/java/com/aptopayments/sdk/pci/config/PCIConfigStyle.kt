@@ -12,5 +12,6 @@ data class PCIConfigStyle(
     val labelPan: Map<String, String>? = null,
     val labelName: Map<String, String>? = null,
     val labelCvv: Map<String, String>? = null,
-    val labelExp: Map<String, String>? = null
+    val labelExp: Map<String, String>? = null,
+    val otpSubmitButton: Map<String, String>? = null
 )

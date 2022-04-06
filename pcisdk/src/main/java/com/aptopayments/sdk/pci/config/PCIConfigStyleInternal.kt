@@ -14,7 +14,9 @@ internal data class PCIConfigStyleInternal(
     @SerializedName("labelExp")
     val labelExp: Map<String, String>? = null,
     @SerializedName("labelName")
-    val labelName: Map<String, String>? = null
+    val labelName: Map<String, String>? = null,
+    @SerializedName("inlineForm")
+    val inlineForm: Map<String, Map<String, String>>? = null
 ) {
     companion object {
         fun createConfig(
@@ -28,7 +30,8 @@ internal data class PCIConfigStyleInternal(
                 labelPan = style?.labelPan,
                 labelCvv = style?.labelCvv,
                 labelExp = style?.labelExp,
-                labelName = style?.labelName
+                labelName = style?.labelName,
+                inlineForm = style?.otpSubmitButton?.let { mapOf("submit" to it) }
             )
         }
     }

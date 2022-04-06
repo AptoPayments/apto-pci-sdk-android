@@ -61,5 +61,12 @@ class ConfigStyleTest {
         assertEquals("{\"extends\":\"dark\",\"container\":{\"color\":\"#$COLOR\"},\"labelCvv\":$jsonExampleMap}", transformToJson(sut))
     }
 
+    @Test
+    fun `When otbSubmitButton provided then is included in JSON`() {
+        val sut = PCIConfigStyleInternal.createConfig(COLOR, PCIConfigStyle(otpSubmitButton = exampleMap), null)
+
+        assertEquals("{\"extends\":\"dark\",\"container\":{\"color\":\"#$COLOR\"},\"inlineForm\":{\"submit\":$jsonExampleMap}}", transformToJson(sut))
+    }
+
     private fun transformToJson(sut: PCIConfigStyleInternal) = gson.toJson(sut).toString()
 }

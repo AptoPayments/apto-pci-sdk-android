@@ -22,5 +22,7 @@ data class PCIConfigCard(
     @SerializedName("labelName")
     val labelName: String? = null,
     @SerializedName("nameOnCard")
-    val nameOnCard: String? = null
+    val nameOnCard: String? = null,
+    @SerializedName("otpSubmitButton")
+    val otpSubmitButton: String? = null
 )
